@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      theme: ThemeData(
+          primaryColor: Colors.purple
+      ),
+      debugShowCheckedModeBanner: false,
+      home: CurrencyConverter(),
+    ),
+  );
+}
+
+class CurrencyConverter extends StatefulWidget {
+  @override
+  _CurrencyConverterState createState() => _CurrencyConverterState();
+}
+
+class _CurrencyConverterState extends State<CurrencyConverter> {
+  final double oneDollarRate = 70.71;
+  TextEditingController inrController = TextEditingController();
+  double result = 0.0;
+
+  double dollar2INR(double americanDollar) {
+    double indianRupee = americanDollar * oneDollarRate;
+    return indianRupee;
+  }
+
+  double inr2Dollar(double indianRupee) {
+    double americanDollar = indianRupee / oneDollarRate;
+    return americanDollar;
+  }
+
+  void convertCurrency(String newVal) {
+//    String inr = inrController.text;
+    String inr = newVal;
+    double parsedInr = double.tryParse(inr);
+    result = inr2Dollar(parsedInr);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Currency Converter"),
+      ),
+      body: Column(
+        children: <Widget>[
+          TextField(
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(hintText: "INDIAN RUPEE"),
+            onChanged: convertCurrency,
+          ),
+          Text("Equivalent Dollar is ${result.toStringAsFixed(2)}")
+        ],
+      ),
+    );
+  }
+}
